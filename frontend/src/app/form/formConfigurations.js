@@ -1,5 +1,5 @@
 export const formConfigurations = {
-  formDa: {
+  formDA: {
     title: "DA Form",
     fields: [
       { label: "First Name", name: "first fame", type: "text", required: true },
