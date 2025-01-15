@@ -1,4 +1,7 @@
 import { formConfigurations } from "../formConfigurations"
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
+import ClientForm from "../ClientForm"
 
 export default async function FormPage({ params }) {
   const { slug } = await params
@@ -6,9 +9,5 @@ export default async function FormPage({ params }) {
   const config = formConfigurations[slug]
   console.log('Config: ', config)
   if (!config) return <div>Form not found</div>
-  return (
-    <div>
-      <h1>{slug.charAt(0).toUpperCase() + slug.slice(1)} Form</h1>
-    </div>
-  )
+  return <ClientForm  config={config}/>
 }
