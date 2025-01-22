@@ -11,7 +11,7 @@ build:
     - npm run build 
   artifacts:
     paths:
-      - .next
+      - frontend/.next
     only: 
       - main
 
@@ -23,6 +23,6 @@ pages:
     - npm run export
   artifacts:
     paths:
-      - out
+      - frontend/out
     only: 
       - main
