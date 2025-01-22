@@ -1,0 +1,28 @@
+image: node:20-alphine
+
+stages: 
+  - build
+  - deploy
+
+build: 
+  stage: build
+  script: 
+    - npm install
+    - npm run build 
+  artifacts:
+    paths:
+      - .next
+    only: 
+      - main
+
+pages: 
+  stage: deploy
+  script: 
+    - npm install
+    - npm run build 
+    - npm run export
+  artifacts:
+    paths:
+      - out
+    only: 
+      - main
