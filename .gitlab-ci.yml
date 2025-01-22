@@ -1,28 +1,16 @@
-image: node:20-alphine
+image: node:20.12.2-alpine3.19
 
-stages: 
+stages:
   - build
-  - deploy
 
-build: 
+pages: 
   stage: build
   script: 
     - npm install
-    - npm run build 
+    - npm run build
   artifacts:
     paths:
-      - frontend/.next
-    only: 
-      - main
-
-pages: 
-  stage: deploy
-  script: 
-    - npm install
-    - npm run build 
-    - npm run export
-  artifacts:
-    paths:
-      - frontend/out
-    only: 
-      - main
+      - out
+  publish: out
+  only:
+    - main
