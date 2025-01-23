@@ -1,0 +1,8 @@
+[init]
+	defaultBranch = none
+[fetch]
+	recurseSubmodules = false
+[transfer]
+	bundleURI = true
+[http "https://sync.git.mil"]
+	sslCAInfo = /Users/atxdefense/jsProjects/formDA/builds/4gHeSy53o/0/trinh.hiep.ctr/formDA.tmp/CI_SERVER_TLS_CA_FILE

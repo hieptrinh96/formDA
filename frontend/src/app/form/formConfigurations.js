@@ -8,12 +8,5 @@ export const formConfigurations = {
       { label: "Item Description", name: "item description", type: "text", required: true },
       { label: "Quantity", name: "quantity", type: "number", required: true }
     ]
-  },
-  registration: {
-    title: "Registration Form",
-    fields: [
-      { label: "Username", name: "username", type: "text", required: true },
-      { label: "Password", name: "password", type: "password", required: true }
-    ]
   }
 }
