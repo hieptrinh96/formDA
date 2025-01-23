@@ -12,9 +12,10 @@ pages:
   stage: build
   script: 
     - cd frontend
-    - npm install
+    - npm ci
     - npm run build
-    - mv out ../public
+    - cd ..
+    - mv frontend/out public
   artifacts:
     paths:
       - public
