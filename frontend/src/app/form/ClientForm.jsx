@@ -35,12 +35,12 @@ const ClientForm = ({ config }) => {
 
   const addEntry = (e) => {
     e.preventDefault()
-    const newErrors = validateForm()
-    if (Object.keys(newErrors).length > 0) {
-      console.log('Error was found')
-      setErrors(newErrors)
-      return
-    }
+    // const newErrors = validateForm()
+    // if (Object.keys(newErrors).length > 0) {
+      // console.log('Error was found')
+      // setErrors(newErrors)
+    //   return
+    // }
     if (currentEntries.stockNumber && currentEntries.itemDescription && currentEntries.quantity) {
       setEntries([...entries, currentEntries])
       setCurrentEntries({
@@ -54,19 +54,20 @@ const ClientForm = ({ config }) => {
   const removeEntry = (index) => {
     setEntries(entries.filter((_, i) => i !== index))
   }
-  const validateForm = () => {
-    let newErrors = {};
-    if (!userInfo.fullName.trim()) newErrors.fullName = "Full name is required";
-    if (!userInfo.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\\S+@\\S+\\.\\S+/.test(userInfo.email)) {
-      newErrors.email = "Email is invalid";
-    }
-    if (!currentEntries.stockNumber) newErrors.stockNumber = "Stock number is required";
-    if (!currentEntries.itemDescription.trim()) newErrors.itemDescription = "Item description is required";
-    if (!currentEntries.quantity) newErrors.quantity = "Quantity is required";
-    return newErrors;
-  };
+  // const validateForm = () => {
+  //   let newErrors = {};
+  //   if (!userInfo.fullName.trim()) newErrors.fullName = "Full name is required";
+  //   if (!userInfo.email.trim()) {
+  //     newErrors.email = "Email is required";
+  //   } else if (!/\\S+@\\S+\\.\\S+/.test(userInfo.email)) {
+  //     newErrors.email = "Email is invalid";
+  //   }
+  //   if (!currentEntries.stockNumber) newErrors.stockNumber = "Stock number is required";
+  //   if (!currentEntries.itemDescription.trim()) newErrors.itemDescription = "Item description is required";
+  //   if (!currentEntries.quantity) newErrors.quantity = "Quantity is required";
+  //   console.log('The newErrors is: ', newErrors)
+  //   return newErrors;
+  // };
   
   // const validateForm = () => {
   //   let newErrors = {}
@@ -111,7 +112,7 @@ const ClientForm = ({ config }) => {
                     name="fullName"
                     value={userInfo.fullName}
                     onChange={handleChange}
-                    >
+                  >
                   </Form.Control>
                 </Form.Group>
 
@@ -126,7 +127,6 @@ const ClientForm = ({ config }) => {
                 </Form.Group>
               </Row>
 
-              {/* <h4>Add Items</h4> */}
               <Row className="mb-3">
                 <Form.Group as={Col}>
                   <Form.Label>Stock Number</Form.Label>
@@ -161,7 +161,7 @@ const ClientForm = ({ config }) => {
                   onChange={handleChange} />
               </Form.Group>
               <div className="d-flex gap-1">
-                <Button variant="secondary" onClick={addEntry} className="w-100" type="button">Add Item</Button>
+                <Button variant="secondary" onClick={addEntry} className="w-100">Add Item</Button>
                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
               </div>
               {entries.length > 0 ?
