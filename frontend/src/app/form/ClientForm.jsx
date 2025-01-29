@@ -6,34 +6,90 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row"
 
 const ClientForm = ({ config }) => {
-  const [formData, setFormData] = useState({
-    'fullName': '',
-    'email': '',
+  const [entries, setEntries] = useState([])
+  const [currentEntries, setCurrentEntries] = useState({
     'stockNumber': 0,
     'itemDescription': '',
     'quantity': 0
   })
+  
+  const [userInfo, setUserInfo] = useState({
+    'fullName': '',
+    'email': ''
+  })
+
+  const [errors, setErrors] = useState({})
   const handleChange = e => {
     const { name, value } = e.target
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }))
+    if (name === 'fullName' || name === 'email') {
+      setUserInfo(prevData => ({
+        ...prevData, [name]: value
+      }))
+    }
+    else {
+      setCurrentEntries(prevData => ({
+        ...prevData, [name]: value
+      }))
+    }
   }
+
+  const addEntry = (e) => {
+    e.preventDefault()
+    const newErrors = validateForm()
+    if (Object.keys(newErrors).length > 0) {
+      console.log('Error was found')
+      setErrors(newErrors)
+      return
+    }
+    if (currentEntries.stockNumber && currentEntries.itemDescription && currentEntries.quantity) {
+      setEntries([...entries, currentEntries])
+      setCurrentEntries({
+        'stockNumber': 0,
+        'itemDescription': '',
+        'quantity': 0
+      })
+    }
+  }
+
+  const removeEntry = (index) => {
+    setEntries(entries.filter((_, i) => i !== index))
+  }
+  const validateForm = () => {
+    let newErrors = {};
+    if (!userInfo.fullName.trim()) newErrors.fullName = "Full name is required";
+    if (!userInfo.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\\S+@\\S+\\.\\S+/.test(userInfo.email)) {
+      newErrors.email = "Email is invalid";
+    }
+    if (!currentEntries.stockNumber) newErrors.stockNumber = "Stock number is required";
+    if (!currentEntries.itemDescription.trim()) newErrors.itemDescription = "Item description is required";
+    if (!currentEntries.quantity) newErrors.quantity = "Quantity is required";
+    return newErrors;
+  };
+  
+  // const validateForm = () => {
+  //   let newErrors = {}
+  //   if (!userInfo.email.trim()) {
+  //     newErrors.email = "Email is required!"
+  //   } else if (!/\\S+@\\S+\\.\\S+/.test(userInfo.email)) {
+  //     newErrors.email = "Email is invalid."
+  //   }
+  //   return newErrors
+  // }
+
     const handleSubmit = async (e) => {
       e.preventDefault()
       try {
         const res = await fetch('/api/populate-pdf', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(formData)
+          body: JSON.stringify(entries)
         })
-        setFormData({
+        setEntries([])
+        setUserInfo({
           'fullName': '',
-          'email': '',
-          'stockNumber': 0,
-          'itemDescription': '',
-          'quantity': 0
+          'email': ''
         })
         return res
       } catch (e) {
@@ -53,7 +109,7 @@ const ClientForm = ({ config }) => {
                   <Form.Control
                     type="text"
                     name="fullName"
-                    value={formData.fullName}
+                    value={userInfo.fullName}
                     onChange={handleChange}
                     >
                   </Form.Control>
@@ -64,11 +120,13 @@ const ClientForm = ({ config }) => {
                   <Form.Control
                     type="email"
                     name="email"
-                    value={formData.email}
+                    value={userInfo.email}
                     onChange={handleChange}>
                     </Form.Control>
                 </Form.Group>
               </Row>
+
+              {/* <h4>Add Items</h4> */}
               <Row className="mb-3">
                 <Form.Group as={Col}>
                   <Form.Label>Stock Number</Form.Label>
@@ -76,7 +134,7 @@ const ClientForm = ({ config }) => {
                     type="number"
                     name="stockNumber"
                     required={true}
-                    value={formData.stockNumber}
+                    value={currentEntries.stockNumber}
                     onChange={handleChange} />
                 </Form.Group>
 
@@ -86,7 +144,7 @@ const ClientForm = ({ config }) => {
                     type="number"
                     name="quantity"
                     required={true}
-                    value={formData.quantity}
+                    value={currentEntries.quantity}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -98,13 +156,27 @@ const ClientForm = ({ config }) => {
                   as='textarea'
                   name="itemDescription"
                   required={true}
-                  value={formData.itemDescription}
+                  value={currentEntries.itemDescription}
                   rows='3'
                   onChange={handleChange} />
               </Form.Group>
-              <div className="d-grid">
-                <Button variant="primary" type="submit" onSubmit={handleSubmit}>Submit</Button>
+              <div className="d-flex gap-1">
+                <Button variant="secondary" onClick={addEntry} className="w-100" type="button">Add Item</Button>
+                <Button variant="primary" type="submit" className="w-100">Submit</Button>
               </div>
+              {entries.length > 0 ?
+              <h4 className="mt-4">Current Entries</h4>
+              :
+              <p></p>
+              }
+              
+              {entries.map((entry, index) => (
+                <div key={index} className="mb-2 p-2 border">
+                  <p>Stock Number: {entry.stockNumber}, Quantity: {entry.quantity}</p>
+                  <p>Description: {entry.itemDescription}</p>
+                  <Button variant="danger" size="sm" onClick={() => removeEntry(index)}>Remove</Button>
+                </div>
+              ))}
             </Form>
         </div>
       </div>
