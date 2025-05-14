@@ -85,9 +85,9 @@ const ClientForm = ({ config }) => {
         const res = await fetch('/api/populate-pdf', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(entries)
+          body: JSON.stringify(currentEntries)
         })
-        setEntries([])
+        setCurrentEntries([])
         setUserInfo({
           'fullName': '',
           'email': ''
