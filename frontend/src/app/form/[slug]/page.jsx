@@ -12,9 +12,9 @@ export async function generateStaticParams() {
 
 export default async function FormPage({ params }) {
   const { slug } = await params
-  console.log("Received slug: ", slug)
+  // console.log("Received slug: ", slug)
   const config = formConfigurations[slug]
-  console.log('Config: ', config)
+  // console.log('Config: ', config)
   if (!config) return <div>Form not found</div>
   return <ClientForm  config={config}/>
 }

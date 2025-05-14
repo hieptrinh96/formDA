@@ -8,6 +8,8 @@ import Row from "react-bootstrap/Row"
 const ClientForm = ({ config }) => {
   const [entries, setEntries] = useState([])
   const [currentEntries, setCurrentEntries] = useState({
+    'fullName': '',
+    'email': '',
     'stockNumber': 0,
     'itemDescription': '',
     'quantity': 0
@@ -21,16 +23,16 @@ const ClientForm = ({ config }) => {
   const [errors, setErrors] = useState({})
   const handleChange = e => {
     const { name, value } = e.target
-    if (name === 'fullName' || name === 'email') {
-      setUserInfo(prevData => ({
-        ...prevData, [name]: value
-      }))
-    }
-    else {
+    // if (name === 'fullName' || name === 'email') {
+      // setUserInfo(prevData => ({
+      //   ...prevData, [name]: value
+      // }))
+    // }
+    // else {
       setCurrentEntries(prevData => ({
         ...prevData, [name]: value
       }))
-    }
+    // }
   }
 
   const addEntry = (e) => {
@@ -44,6 +46,8 @@ const ClientForm = ({ config }) => {
     if (currentEntries.stockNumber && currentEntries.itemDescription && currentEntries.quantity) {
       setEntries([...entries, currentEntries])
       setCurrentEntries({
+        'fullName': '',
+        'email': '',
         'stockNumber': 0,
         'itemDescription': '',
         'quantity': 0
@@ -87,7 +91,13 @@ const ClientForm = ({ config }) => {
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(currentEntries)
         })
-        setCurrentEntries([])
+        setCurrentEntries({
+          'fullName': '',
+          'email': '',
+          'stockNumber': 0,
+          'itemDescription': '',
+          'quantity': 0
+        })
         setUserInfo({
           'fullName': '',
           'email': ''
@@ -110,7 +120,7 @@ const ClientForm = ({ config }) => {
                   <Form.Control
                     type="text"
                     name="fullName"
-                    value={userInfo.fullName}
+                    value={currentEntries.fullName}
                     onChange={handleChange}
                   >
                   </Form.Control>
@@ -121,7 +131,7 @@ const ClientForm = ({ config }) => {
                   <Form.Control
                     type="email"
                     name="email"
-                    value={userInfo.email}
+                    value={currentEntries.email}
                     onChange={handleChange}>
                     </Form.Control>
                 </Form.Group>
