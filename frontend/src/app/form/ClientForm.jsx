@@ -10,7 +10,7 @@ const ClientForm = ({ config }) => {
   const [currentEntries, setCurrentEntries] = useState({
     'fullName': '',
     'email': '',
-    'stockNumber': 0,
+    'stockNumber': '',
     'itemDescription': '',
     'quantity': 0
   })
@@ -48,7 +48,7 @@ const ClientForm = ({ config }) => {
       setCurrentEntries({
         'fullName': '',
         'email': '',
-        'stockNumber': 0,
+        'stockNumber': '',
         'itemDescription': '',
         'quantity': 0
       })
@@ -94,7 +94,7 @@ const ClientForm = ({ config }) => {
         setCurrentEntries({
           'fullName': '',
           'email': '',
-          'stockNumber': 0,
+          'stockNumber': '',
           'itemDescription': '',
           'quantity': 0
         })
@@ -141,7 +141,7 @@ const ClientForm = ({ config }) => {
                 <Form.Group as={Col}>
                   <Form.Label>Stock Number</Form.Label>
                   <Form.Control
-                    type="number"
+                    type="text"
                     name="stockNumber"
                     required={true}
                     value={currentEntries.stockNumber}
