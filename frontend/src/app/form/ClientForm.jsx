@@ -92,6 +92,7 @@ const ClientForm = ({ config }) => {
             <Form.Label>Cohort</Form.Label>
             <Form.Control 
               name="cohort"
+              type="number"
               value={currentEntries.cohort}
               onChange={handleChange}
             />
@@ -146,6 +147,7 @@ const ClientForm = ({ config }) => {
                 <div key={index} className="mb-2 p-2 border">
                   <p>Full Name: {entry.fullName}</p>
                   <p>Email: {entry.email}</p>
+                  <p>Cohort: {entry.cohort}</p>
                   <p>Stock Number: {entry.stockNumber}</p>
                   <p>Quantity: {entry.quantity}</p>
                   <p>Description: {entry.itemDescription}</p>
