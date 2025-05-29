@@ -15,73 +15,25 @@ const ClientForm = ({ config }) => {
     'quantity': 0
   })
   
-  const [userInfo, setUserInfo] = useState({
-    'fullName': '',
-    'email': ''
-  })
-
-  const [errors, setErrors] = useState({})
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target
-    // if (name === 'fullName' || name === 'email') {
-      // setUserInfo(prevData => ({
-      //   ...prevData, [name]: value
-      // }))
-    // }
-    // else {
-      setCurrentEntries(prevData => ({
-        ...prevData, [name]: value
-      }))
-    // }
+    setCurrentEntries(prev => ({
+      ...prev,
+      [name]: value
+    }))
   }
 
   const addEntry = (e) => {
-    e.preventDefault()
-    // const newErrors = validateForm()
-    // if (Object.keys(newErrors).length > 0) {
-      // console.log('Error was found')
-      // setErrors(newErrors)
-    //   return
-    // }
-    if (currentEntries.stockNumber && currentEntries.itemDescription && currentEntries.quantity) {
-      setEntries([...entries, currentEntries])
-      setCurrentEntries({
-        'fullName': '',
-        'email': '',
-        'stockNumber': '',
-        'itemDescription': '',
-        'quantity': 0
-      })
-    }
+    e.preventDefault()   
+    setEntries(prev => [...prev, currentEntries])
+    setCurrentEntries({
+      fullName: '',
+      email: '',
+      stockNumber: 0,
+      quantity: '',
+      itemDescription: ''
+    })
   }
-
-  const removeEntry = (index) => {
-    setEntries(entries.filter((_, i) => i !== index))
-  }
-  // const validateForm = () => {
-  //   let newErrors = {};
-  //   if (!userInfo.fullName.trim()) newErrors.fullName = "Full name is required";
-  //   if (!userInfo.email.trim()) {
-  //     newErrors.email = "Email is required";
-  //   } else if (!/\\S+@\\S+\\.\\S+/.test(userInfo.email)) {
-  //     newErrors.email = "Email is invalid";
-  //   }
-  //   if (!currentEntries.stockNumber) newErrors.stockNumber = "Stock number is required";
-  //   if (!currentEntries.itemDescription.trim()) newErrors.itemDescription = "Item description is required";
-  //   if (!currentEntries.quantity) newErrors.quantity = "Quantity is required";
-  //   console.log('The newErrors is: ', newErrors)
-  //   return newErrors;
-  // };
-  
-  // const validateForm = () => {
-  //   let newErrors = {}
-  //   if (!userInfo.email.trim()) {
-  //     newErrors.email = "Email is required!"
-  //   } else if (!/\\S+@\\S+\\.\\S+/.test(userInfo.email)) {
-  //     newErrors.email = "Email is invalid."
-  //   }
-  //   return newErrors
-  // }
 
     const handleSubmit = async (e) => {
       e.preventDefault()
@@ -109,89 +61,98 @@ const ClientForm = ({ config }) => {
     }
 
   return ( 
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <h1 className="text-center mb-4">{config.title}</h1>
-            <Form onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <Form.Group as={Col}>
-                  <Form.Label>Full Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="fullName"
-                    value={currentEntries.fullName}
-                    onChange={handleChange}
-                  >
-                  </Form.Control>
-                </Form.Group>
+  <div className="container">
+    <div className="row justify-content-center">
+      <div className="col-md-6">
+        <h1 className="text-center mb-4">{config.title}</h1>
+        <Form onSubmit={handleSubmit}>
+          <Row className="mb-3">
+            <Form.Group as={Col}>
+              <Form.Label>Full Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="fullName"
+                value={currentEntries.fullName}
+                onChange={handleChange}
+              />
+            </Form.Group>
 
-                <Form.Group as={Col}>
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    value={currentEntries.email}
-                    onChange={handleChange}>
-                    </Form.Control>
-                </Form.Group>
-              </Row>
+            <Form.Group as={Col}>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={currentEntries.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Row>
 
-              <Row className="mb-3">
-                <Form.Group as={Col}>
-                  <Form.Label>Stock Number</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="stockNumber"
-                    required={true}
-                    value={currentEntries.stockNumber}
-                    onChange={handleChange} />
-                </Form.Group>
+          <Row className="mb-3">
+            <Form.Group as={Col}>
+              <Form.Label>Stock Number</Form.Label>
+              <Form.Control
+                type="text"
+                name="stockNumber"
+                required
+                value={currentEntries.stockNumber}
+                onChange={handleChange}
+              />
+            </Form.Group>
 
-                <Form.Group as={Col}>
-                  <Form.Label>Quantity</Form.Label>
-                  <Form.Control 
-                    type="number"
-                    name="quantity"
-                    required={true}
-                    value={currentEntries.quantity}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              </Row>
+            <Form.Group as={Col}>
+              <Form.Label>Quantity</Form.Label>
+              <Form.Control 
+                type="number"
+                name="quantity"
+                required
+                value={currentEntries.quantity}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Row>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Item Description</Form.Label>
-                <Form.Control 
-                  as='textarea'
-                  name="itemDescription"
-                  required={true}
-                  value={currentEntries.itemDescription}
-                  rows='3'
-                  onChange={handleChange} />
-              </Form.Group>
-              <div className="d-flex gap-1">
-                <Button variant="secondary" onClick={addEntry} className="w-100">Add Item</Button>
-                <Button variant="primary" type="submit" className="w-100">Submit</Button>
-              </div>
-              {entries.length > 0 ?
+          <Form.Group className="mb-3">
+            <Form.Label>Item Description</Form.Label>
+            <Form.Control 
+              as="textarea"
+              name="itemDescription"
+              required
+              value={currentEntries.itemDescription}
+              rows="3"
+              onChange={handleChange}
+            />
+          </Form.Group>
+
+          <div className="d-flex gap-1">
+            <Button variant="secondary" onClick={addEntry} className="w-100" type="button">
+              Add Item
+            </Button>
+            <Button variant="primary" type="submit" className="w-100">
+              Submit
+            </Button>
+          </div>
+
+          {entries.length > 0 && (
+            <>
               <h4 className="mt-4">Current Entries</h4>
-              :
-              <p></p>
-              }
-              
               {entries.map((entry, index) => (
                 <div key={index} className="mb-2 p-2 border">
-                  <p>Stock Number: {entry.stockNumber}, Quantity: {entry.quantity}</p>
+                  <p>Full Name: {entry.fullName}</p>
+                  <p>Email: {entry.email}</p>
+                  <p>Stock Number: {entry.stockNumber}, </p>
+                  <p>Quantity: {entry.quantity}</p>
                   <p>Description: {entry.itemDescription}</p>
                   <Button variant="danger" size="sm" onClick={() => removeEntry(index)}>Remove</Button>
                 </div>
               ))}
-            </Form>
-        </div>
+            </>
+          )}
+        </Form>
       </div>
     </div>
-   );
+  </div>
+  );
 }
  
 export default ClientForm;
