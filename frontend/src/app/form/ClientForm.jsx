@@ -12,7 +12,8 @@ const ClientForm = ({ config }) => {
     'email': '',
     'stockNumber': '',
     'itemDescription': '',
-    'quantity': 0
+    'quantity': 0,
+    'cohort': 0
   })
   
   const handleChange = (e) => {
@@ -29,9 +30,10 @@ const ClientForm = ({ config }) => {
     setCurrentEntries({
       fullName: '',
       email: '',
-      stockNumber: 0,
-      quantity: '',
-      itemDescription: ''
+      stockNumber: '',
+      quantity: 0,
+      itemDescription: '',
+      cohort: 0
     })
   }
 
@@ -41,19 +43,17 @@ const ClientForm = ({ config }) => {
         const res = await fetch('/api/populate-pdf', {
           method: 'post',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(currentEntries)
+          body: JSON.stringify(entries)
         })
         setCurrentEntries({
           'fullName': '',
           'email': '',
           'stockNumber': '',
           'itemDescription': '',
-          'quantity': 0
+          'quantity': 0,
+          'cohort': 0
         })
-        setUserInfo({
-          'fullName': '',
-          'email': ''
-        })
+        setEntries([])
         return res
       } catch (e) {
         console.error('Error = ', e)
@@ -88,13 +88,21 @@ const ClientForm = ({ config }) => {
             </Form.Group>
           </Row>
 
+          <Form.Group className="mb-3">
+            <Form.Label>Cohort</Form.Label>
+            <Form.Control 
+              name="cohort"
+              value={currentEntries.cohort}
+              onChange={handleChange}
+            />
+          </Form.Group>
+
           <Row className="mb-3">
             <Form.Group as={Col}>
               <Form.Label>Stock Number</Form.Label>
               <Form.Control
                 type="text"
                 name="stockNumber"
-                required
                 value={currentEntries.stockNumber}
                 onChange={handleChange}
               />
@@ -105,7 +113,6 @@ const ClientForm = ({ config }) => {
               <Form.Control 
                 type="number"
                 name="quantity"
-                required
                 value={currentEntries.quantity}
                 onChange={handleChange}
               />
@@ -117,7 +124,6 @@ const ClientForm = ({ config }) => {
             <Form.Control 
               as="textarea"
               name="itemDescription"
-              required
               value={currentEntries.itemDescription}
               rows="3"
               onChange={handleChange}
@@ -140,7 +146,7 @@ const ClientForm = ({ config }) => {
                 <div key={index} className="mb-2 p-2 border">
                   <p>Full Name: {entry.fullName}</p>
                   <p>Email: {entry.email}</p>
-                  <p>Stock Number: {entry.stockNumber}, </p>
+                  <p>Stock Number: {entry.stockNumber}</p>
                   <p>Quantity: {entry.quantity}</p>
                   <p>Description: {entry.itemDescription}</p>
                   <Button variant="danger" size="sm" onClick={() => removeEntry(index)}>Remove</Button>

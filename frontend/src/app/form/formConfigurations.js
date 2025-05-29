@@ -6,7 +6,8 @@ export const formConfigurations = {
       { label: "Email", name: "email", type: "text"},
       { label: "Stock Number", name: "stockNumber", type: "text"},
       { label: "Item Description", name: "itemDescription", type: "text"},
-      { label: "Quantity", name: "quantity", type: "number" }
+      { label: "Quantity", name: "quantity", type: "number" },
+      {label: "Cohort", name: "cohort", type: "number"}
     ]
   }
 }
