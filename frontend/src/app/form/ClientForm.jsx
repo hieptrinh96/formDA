@@ -37,6 +37,10 @@ const ClientForm = ({ config }) => {
     })
   }
 
+  const removeEntry = index => {
+    setEntries(prevEntries => prevEntries.filter((_, i) => i !== index)
+  )}
+
     const handleSubmit = async (e) => {
       e.preventDefault()
       try {
